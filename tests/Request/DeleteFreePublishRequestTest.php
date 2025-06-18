@@ -28,8 +28,6 @@ class DeleteFreePublishRequestTest extends TestCase
         $this->request->setArticleId('test-article-id');
         
         $result = $this->request->getRequestOptions();
-        
-        $this->assertIsArray($result);
         $this->assertArrayHasKey('json', $result);
         $this->assertEquals('test-article-id', $result['json']['article_id']);
         $this->assertEquals(0, $result['json']['index']);
@@ -41,8 +39,6 @@ class DeleteFreePublishRequestTest extends TestCase
         $this->request->setIndex(2);
         
         $result = $this->request->getRequestOptions();
-        
-        $this->assertIsArray($result);
         $this->assertArrayHasKey('json', $result);
         $this->assertEquals('test-article-id', $result['json']['article_id']);
         $this->assertEquals(2, $result['json']['index']);

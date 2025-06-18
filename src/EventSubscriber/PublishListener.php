@@ -21,12 +21,17 @@ class PublishListener
 
     public function preRemove(Publish $object): void
     {
-        if (!$object->getArticleId()) {
+        if (null === $object->getArticleId()) {
+            return;
+        }
+
+        $account = $object->getAccount();
+        if (null === $account) {
             return;
         }
 
         $request = new DeleteFreePublishRequest();
-        $request->setAccount($object->getAccount());
+        $request->setAccount($account);
         $request->setArticleId($object->getArticleId());
         $this->client->asyncRequest($request);
     }

@@ -26,6 +26,9 @@ class DeleteFreePublishRequest extends WithAccountRequest
         return 'https://api.weixin.qq.com/cgi-bin/freepublish/delete';
     }
 
+    /**
+     * @return array<string, mixed>|null
+     */
     public function getRequestOptions(): ?array
     {
         $json = [

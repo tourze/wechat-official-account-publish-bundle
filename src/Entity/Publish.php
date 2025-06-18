@@ -8,23 +8,15 @@ use Tourze\DoctrineIpBundle\Attribute\CreateIpColumn;
 use Tourze\DoctrineIpBundle\Attribute\UpdateIpColumn;
 use Tourze\DoctrineSnowflakeBundle\Service\SnowflakeIdGenerator;
 use Tourze\DoctrineTimestampBundle\Traits\TimestampableAware;
-use Tourze\EasyAdmin\Attribute\Action\Deletable;
-use Tourze\EasyAdmin\Attribute\Column\ExportColumn;
-use Tourze\EasyAdmin\Attribute\Column\ListColumn;
-use Tourze\EasyAdmin\Attribute\Permission\AsPermission;
 use WechatOfficialAccountBundle\Entity\Account;
 use WechatOfficialAccountDraftBundle\Entity\Draft;
 use WechatOfficialAccountPublishBundle\Repository\PublishRepository;
 
-#[AsPermission(title: '发布任务')]
-#[Deletable]
 #[ORM\Entity(repositoryClass: PublishRepository::class)]
 #[ORM\Table(name: 'wechat_official_account_publish', options: ['comment' => '发布任务'])]
-class Publish
+class Publish implements \Stringable
 {
     use TimestampableAware;
-    #[ExportColumn]
-    #[ListColumn(order: -1, sorter: true)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(SnowflakeIdGenerator::class)]
@@ -39,10 +31,10 @@ class Publish
     #[ORM\JoinColumn(nullable: false)]
     private ?Draft $draft = null;
 
-    #[ORM\Column(length: 40, nullable: true)]
+    #[ORM\Column(length: 40, nullable: true, options: ['comment' => '发布ID'])]
     private ?string $publishId = null;
 
-    #[ORM\Column(length: 64, nullable: true)]
+    #[ORM\Column(length: 64, nullable: true, options: ['comment' => '文章ID'])]
     private ?string $articleId = null;
 
     #[CreateIpColumn]
@@ -128,4 +120,10 @@ class Publish
     public function getUpdatedFromIp(): ?string
     {
         return $this->updatedFromIp;
-    }}
+    }
+
+    public function __toString(): string
+    {
+        return sprintf('发布任务 #%s', $this->id ?? 'new');
+    }
+}
