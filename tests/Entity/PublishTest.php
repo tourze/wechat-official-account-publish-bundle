@@ -107,7 +107,7 @@ class PublishTest extends TestCase
 
     public function testSetAndGetCreateTime_withValidDateTime(): void
     {
-        $dateTime = new \DateTime();
+        $dateTime = new \DateTimeImmutable();
 
         $this->publish->setCreateTime($dateTime);
 
@@ -116,7 +116,7 @@ class PublishTest extends TestCase
 
     public function testSetAndGetUpdateTime_withValidDateTime(): void
     {
-        $dateTime = new \DateTime();
+        $dateTime = new \DateTimeImmutable();
 
         $this->publish->setUpdateTime($dateTime);
 
