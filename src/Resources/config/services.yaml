@@ -4,7 +4,25 @@ services:
     autowire: true      # Automatically injects dependencies in your services.
     autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
-  WechatOfficialAccountPublishBundle\EventSubscriber\:
-    resource: '../../EventSubscriber/'
   WechatOfficialAccountPublishBundle\Repository\:
     resource: '../../Repository/'
+
+  WechatOfficialAccountPublishBundle\EventSubscriber\:
+    resource: '../../EventSubscriber/'
+
+  # Controller services
+  WechatOfficialAccountPublishBundle\Controller\Admin\PublishCrudController:
+    tags: ['controller.service_arguments']
+
+  # Menu service registration
+  WechatOfficialAccountPublishBundle\Service\AdminMenu:
+    public: true
+    tags:
+      - { name: 'easy_admin_menu.provider' }
+
+  # EasyAdmin services for testing - anonymous mock
+  WechatOfficialAccountPublishBundle\Tests\Service\AdminUrlGeneratorFactory:
+    public: true
+
+  EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGeneratorInterface:
+    factory: ['@WechatOfficialAccountPublishBundle\Tests\Service\AdminUrlGeneratorFactory', 'create']

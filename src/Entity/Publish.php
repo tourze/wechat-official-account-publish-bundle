@@ -2,10 +2,9 @@
 
 namespace WechatOfficialAccountPublishBundle\Entity;
 
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Tourze\DoctrineIpBundle\Attribute\CreateIpColumn;
-use Tourze\DoctrineIpBundle\Attribute\UpdateIpColumn;
+use Symfony\Component\Validator\Constraints as Assert;
+use Tourze\DoctrineIpBundle\Traits\IpTraceableAware;
 use Tourze\DoctrineSnowflakeBundle\Traits\SnowflakeKeyAware;
 use Tourze\DoctrineTimestampBundle\Traits\TimestampableAware;
 use WechatOfficialAccountBundle\Entity\Account;
@@ -18,6 +17,7 @@ class Publish implements \Stringable
 {
     use TimestampableAware;
     use SnowflakeKeyAware;
+    use IpTraceableAware;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
@@ -28,30 +28,21 @@ class Publish implements \Stringable
     private ?Draft $draft = null;
 
     #[ORM\Column(length: 40, nullable: true, options: ['comment' => '发布ID'])]
+    #[Assert\Length(max: 40)]
     private ?string $publishId = null;
 
     #[ORM\Column(length: 64, nullable: true, options: ['comment' => '文章ID'])]
+    #[Assert\Length(max: 64)]
     private ?string $articleId = null;
-
-    #[CreateIpColumn]
-    #[ORM\Column(length: 128, nullable: true, options: ['comment' => '创建时IP'])]
-    private ?string $createdFromIp = null;
-
-    #[UpdateIpColumn]
-    #[ORM\Column(length: 128, nullable: true, options: ['comment' => '更新时IP'])]
-    private ?string $updatedFromIp = null;
-
 
     public function getAccount(): ?Account
     {
         return $this->account;
     }
 
-    public function setAccount(?Account $account): static
+    public function setAccount(?Account $account): void
     {
         $this->account = $account;
-
-        return $this;
     }
 
     public function getDraft(): ?Draft
@@ -59,11 +50,9 @@ class Publish implements \Stringable
         return $this->draft;
     }
 
-    public function setDraft(?Draft $draft): static
+    public function setDraft(?Draft $draft): void
     {
         $this->draft = $draft;
-
-        return $this;
     }
 
     public function getPublishId(): ?string
@@ -71,11 +60,9 @@ class Publish implements \Stringable
         return $this->publishId;
     }
 
-    public function setPublishId(?string $publishId): static
+    public function setPublishId(?string $publishId): void
     {
         $this->publishId = $publishId;
-
-        return $this;
     }
 
     public function getArticleId(): ?string
@@ -83,35 +70,9 @@ class Publish implements \Stringable
         return $this->articleId;
     }
 
-    public function setArticleId(?string $articleId): static
+    public function setArticleId(?string $articleId): void
     {
         $this->articleId = $articleId;
-
-        return $this;
-    }
-
-    public function setCreatedFromIp(?string $createdFromIp): self
-    {
-        $this->createdFromIp = $createdFromIp;
-
-        return $this;
-    }
-
-    public function getCreatedFromIp(): ?string
-    {
-        return $this->createdFromIp;
-    }
-
-    public function setUpdatedFromIp(?string $updatedFromIp): self
-    {
-        $this->updatedFromIp = $updatedFromIp;
-
-        return $this;
-    }
-
-    public function getUpdatedFromIp(): ?string
-    {
-        return $this->updatedFromIp;
     }
 
     public function __toString(): string

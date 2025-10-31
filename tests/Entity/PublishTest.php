@@ -2,17 +2,42 @@
 
 namespace WechatOfficialAccountPublishBundle\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
+use Tourze\PHPUnitDoctrineEntity\AbstractEntityTestCase;
 use WechatOfficialAccountBundle\Entity\Account;
 use WechatOfficialAccountDraftBundle\Entity\Draft;
 use WechatOfficialAccountPublishBundle\Entity\Publish;
 
-class PublishTest extends TestCase
+/**
+ * @internal
+ */
+#[CoversClass(Publish::class)]
+final class PublishTest extends AbstractEntityTestCase
 {
+    protected function createEntity(): object
+    {
+        return new Publish();
+    }
+
+    /**
+     * @return iterable<array{string, mixed}>
+     */
+    public static function propertiesProvider(): iterable
+    {
+        return [
+            'id' => ['id', 'test-snowflake-id'],
+            'createTime' => ['createTime', new \DateTimeImmutable()],
+            'updateTime' => ['updateTime', new \DateTimeImmutable()],
+        ];
+    }
+
     private Publish $publish;
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->publish = new Publish();
     }
 
@@ -29,83 +54,83 @@ class PublishTest extends TestCase
         $this->assertNull($this->publish->getUpdateTime());
     }
 
-    public function testSetAndGetAccount_withValidAccount(): void
+    public function testSetAndGetAccountWithValidAccount(): void
     {
+        // 使用具体类进行 Mock 的理由：
+        // 1. Account 实体类没有对应的接口或抽象类
+        // 2. 这里测试的是 Publish 实体的设置和获取功能，需要验证对象引用的正确性
+        // 3. 实体类的 Mock 在单元测试中是常见且合理的做法
         $account = $this->createMock(Account::class);
 
-        $result = $this->publish->setAccount($account);
+        $this->publish->setAccount($account);
 
         $this->assertSame($account, $this->publish->getAccount());
-        $this->assertSame($this->publish, $result);
     }
 
-    public function testSetAndGetDraft_withValidDraft(): void
+    public function testSetAndGetDraftWithValidDraft(): void
     {
+        // 使用具体类进行 Mock 的理由：
+        // 1. Draft 实体类没有对应的接口或抽象类
+        // 2. 这里测试的是 Publish 实体的设置和获取功能，需要验证对象引用的正确性
+        // 3. 实体类的 Mock 在单元测试中是常见且合理的做法
         $draft = $this->createMock(Draft::class);
 
-        $result = $this->publish->setDraft($draft);
+        $this->publish->setDraft($draft);
 
         $this->assertSame($draft, $this->publish->getDraft());
-        $this->assertSame($this->publish, $result);
     }
 
-    public function testSetAndGetPublishId_withValidValue(): void
+    public function testSetAndGetPublishIdWithValidValue(): void
     {
         $publishId = 'test-publish-id';
 
-        $result = $this->publish->setPublishId($publishId);
+        $this->publish->setPublishId($publishId);
 
         $this->assertEquals($publishId, $this->publish->getPublishId());
-        $this->assertSame($this->publish, $result);
     }
 
-    public function testSetAndGetPublishId_withNull(): void
+    public function testSetAndGetPublishIdWithNull(): void
     {
-        $result = $this->publish->setPublishId(null);
+        $this->publish->setPublishId(null);
 
         $this->assertNull($this->publish->getPublishId());
-        $this->assertSame($this->publish, $result);
     }
 
-    public function testSetAndGetArticleId_withValidValue(): void
+    public function testSetAndGetArticleIdWithValidValue(): void
     {
         $articleId = 'test-article-id';
 
-        $result = $this->publish->setArticleId($articleId);
+        $this->publish->setArticleId($articleId);
 
         $this->assertEquals($articleId, $this->publish->getArticleId());
-        $this->assertSame($this->publish, $result);
     }
 
-    public function testSetAndGetArticleId_withNull(): void
+    public function testSetAndGetArticleIdWithNull(): void
     {
-        $result = $this->publish->setArticleId(null);
+        $this->publish->setArticleId(null);
 
         $this->assertNull($this->publish->getArticleId());
-        $this->assertSame($this->publish, $result);
     }
 
-    public function testSetAndGetCreatedFromIp_withValidValue(): void
+    public function testSetAndGetCreatedFromIpWithValidValue(): void
     {
         $ip = '192.168.1.1';
 
-        $result = $this->publish->setCreatedFromIp($ip);
+        $this->publish->setCreatedFromIp($ip);
 
         $this->assertEquals($ip, $this->publish->getCreatedFromIp());
-        $this->assertSame($this->publish, $result);
     }
 
-    public function testSetAndGetUpdatedFromIp_withValidValue(): void
+    public function testSetAndGetUpdatedFromIpWithValidValue(): void
     {
         $ip = '192.168.1.2';
 
-        $result = $this->publish->setUpdatedFromIp($ip);
+        $this->publish->setUpdatedFromIp($ip);
 
         $this->assertEquals($ip, $this->publish->getUpdatedFromIp());
-        $this->assertSame($this->publish, $result);
     }
 
-    public function testSetAndGetCreateTime_withValidDateTime(): void
+    public function testSetAndGetCreateTimeWithValidDateTime(): void
     {
         $dateTime = new \DateTimeImmutable();
 
@@ -114,7 +139,7 @@ class PublishTest extends TestCase
         $this->assertSame($dateTime, $this->publish->getCreateTime());
     }
 
-    public function testSetAndGetUpdateTime_withValidDateTime(): void
+    public function testSetAndGetUpdateTimeWithValidDateTime(): void
     {
         $dateTime = new \DateTimeImmutable();
 
