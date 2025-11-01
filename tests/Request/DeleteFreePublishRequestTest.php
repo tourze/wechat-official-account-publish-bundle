@@ -2,7 +2,7 @@
 
 namespace WechatOfficialAccountPublishBundle\Tests\Request;
 
-use HttpClientBundle\Tests\Request\RequestTestCase;
+use HttpClientBundle\Test\RequestTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use WechatOfficialAccountBundle\Request\WithAccountRequest;
 use WechatOfficialAccountPublishBundle\Request\DeleteFreePublishRequest;
