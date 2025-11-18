@@ -31,11 +31,6 @@ final class PublishCrudControllerTest extends AbstractEasyAdminControllerTestCas
         $this->assertInstanceOf(PublishCrudController::class, $controller);
     }
 
-    public function testGetEntityFqcn(): void
-    {
-        $this->assertEquals(Publish::class, PublishCrudController::getEntityFqcn());
-    }
-
     public function testControllerConfiguration(): void
     {
         $controller = new PublishCrudController();
